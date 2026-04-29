@@ -1,1 +1,134 @@
-<title>CPA 2026 RESUMO FINAL</title>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>CPA20 Premium</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      margin: 0;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+    }
+
+    header {
+      background: #020617;
+      padding: 20px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    button {
+      padding: 12px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #22c55e;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .premium {
+      background: gold;
+    }
+
+    .card {
+      background: #1e293b;
+      margin: 15px;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>📊 CPA-20 PREMIUM</header>
+
+<div id="menu">
+  <button onclick="show('resumo')">📚 Resumos</button>
+  <button onclick="show('simulado')">📝 Simulado</button>
+  <button onclick="show('progresso')">📈 Progresso</button>
+  <button class="premium" onclick="unlock()">🔓 Premium</button>
+</div>
+
+<div id="resumo">
+  <div class="card">
+    <h3>Tesouro + CDB + LCI/LCA</h3>
+    <p>
+      Tesouro: risco baixo, garantia do governo.<br>
+      CDB: garantia FGC até 250 mil.<br>
+      LCI/LCA: isento de IR.
+    </p>
+  </div>
+
+  <div class="card premium-content hidden">
+    <h3>🔥 Estratégia de Prova</h3>
+    <p>
+      LCI/LCA = sem IR (cai muito na prova).<br>
+      Tesouro Selic = liquidez diária.<br>
+      CDB longo = maior rendimento.
+    </p>
+  </div>
+</div>
+
+<div id="simulado" class="hidden">
+  <div class="card">
+    <h3>Pergunta</h3>
+    <p>LCI é isento de qual imposto?</p>
+
+    <button onclick="responder(true)">Imposto de Renda</button>
+    <button onclick="responder(false)">IOF</button>
+
+    <p id="resultado"></p>
+  </div>
+</div>
+
+<div id="progresso" class="hidden">
+  <div class="card">
+    <h3>Seu progresso</h3>
+    <p id="score">0 acertos</p>
+  </div>
+</div>
+
+<script>
+let acertos = 0
+let premium = false
+
+function show(id) {
+  document.getElementById("resumo").classList.add("hidden")
+  document.getElementById("simulado").classList.add("hidden")
+  document.getElementById("progresso").classList.add("hidden")
+
+  document.getElementById(id).classList.remove("hidden")
+}
+
+function responder(correto) {
+  if (correto) {
+    acertos++
+    document.getElementById("resultado").innerText = "✅ Acertou!"
+  } else {
+    document.getElementById("resultado").innerText = "❌ Errou!"
+  }
+
+  document.getElementById("score").innerText = acertos + " acertos"
+}
+
+function unlock() {
+  premium = true
+  document.querySelectorAll(".premium-content").forEach(el => {
+    el.classList.remove("hidden")
+  })
+  alert("🔥 Premium desbloqueado!")
+}
+</script>
+
+</body>
+</html>

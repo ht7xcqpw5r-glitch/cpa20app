@@ -4,28 +4,98 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>CPA 2026 App</title>
+<title>CPA 2026 — App</title>
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a0a0f">
 
 <style>
-body { background:#0a0a0f; color:#fff; font-family:sans-serif; padding:20px; }
-button { padding:10px; margin:5px 0; width:100%; border:none; background:#f0c040; font-weight:bold; }
-.card { background:#111; padding:15px; border-radius:8px; margin-bottom:10px; }
+body {
+  background:#0a0a0f;
+  color:#e8e8f0;
+  font-family:sans-serif;
+  padding:15px;
+}
+
+h1 { color:#f0c040; }
+
+.card {
+  background:#111;
+  padding:15px;
+  border-radius:8px;
+  margin-bottom:10px;
+}
+
+button {
+  padding:10px;
+  margin-top:10px;
+  width:100%;
+  background:#f0c040;
+  border:none;
+  font-weight:bold;
+}
 </style>
 </head>
 
 <body>
 
-<h1>CPA 2026 🚀</h1>
+<h1>CPA 2026 🎯</h1>
+
+<div id="resumo">
 
 <div class="card">
-  <h2>Simulado CPA</h2>
-  <div id="timer">Tempo: 300s</div>
-  <div id="quiz"></div>
-  <button onclick="startQuiz()">INICIAR</button>
+<h2>🔥 IR Renda Fixa</h2>
+<p>Até 180 dias: 22,5%</p>
+<p>181–360: 20%</p>
+<p>361–720: 17,5%</p>
+<p>+720: 15%</p>
 </div>
+
+<div class="card">
+<h2>🔥 FGC</h2>
+<p>R$250 mil por CPF por instituição</p>
+<p>Limite global: R$1 milhão</p>
+</div>
+
+<div class="card">
+<h2>🔥 Tesouro Direto</h2>
+<p>Selic: reserva de emergência</p>
+<p>Prefixado: queda de juros</p>
+<p>IPCA+: proteção inflação</p>
+</div>
+
+<div class="card">
+<h2>🔥 Fundos</h2>
+<p>Come-cotas: maio e novembro</p>
+<p>Fundos de ações NÃO tem</p>
+</div>
+
+<button onclick="abrirSimulado()">📝 Fazer Simulado</button>
+
+</div>
+
+<div id="simulado" style="display:none">
+
+<div class="card">
+<div id="timer">Tempo: 300s</div>
+<div id="quiz"></div>
+<button onclick="startQuiz()">Iniciar</button>
+<button onclick="voltar()">⬅ Voltar</button>
+</div>
+
+</div>
+
+<script>
+function abrirSimulado(){
+ document.getElementById("resumo").style.display="none";
+ document.getElementById("simulado").style.display="block";
+}
+
+function voltar(){
+ document.getElementById("simulado").style.display="none";
+ document.getElementById("resumo").style.display="block";
+}
+</script>
 
 <script>
 const questions = [

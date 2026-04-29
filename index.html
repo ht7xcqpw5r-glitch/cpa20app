@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CPA 2026 App</title>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a0a0f">
+
+<style>
+body { background:#0a0a0f; color:#fff; font-family:sans-serif; padding:20px; }
+button { padding:10px; margin:5px 0; width:100%; border:none; background:#f0c040; font-weight:bold; }
+.card { background:#111; padding:15px; border-radius:8px; margin-bottom:10px; }
+</style>
+</head>
+
+<body>
+
+<h1>CPA 2026 🚀</h1>
+
+<div class="card">
+  <h2>Simulado CPA</h2>
+  <div id="timer">Tempo: 300s</div>
+  <div id="quiz"></div>
+  <button onclick="startQuiz()">INICIAR</button>
+</div>
+
+<script>
+const questions = [
+{q:"Produto isento de IR?",o:["CDB","LCI","Tesouro","Debênture"],a:1,e:"LCI é isenta"},
+{q:"Quem define Selic?",o:["CMN","BACEN","COPOM","CVM"],a:2,e:"COPOM define"},
+{q:"Come-cotas ocorre em?",o:["Ações","RF","FII","ETF"],a:1,e:"Renda fixa"},
+{q:"FGC cobre até?",o:["100k","250k","500k","1mi"],a:1,e:"250 mil"},
+{q:"Perfil maior risco?",o:["Cons.","Mod.","Arrojado","Nenhum"],a:2,e:"Arrojado"}
+];
+
+let i=0,score=0,time=300,timer;
+
+function startQuiz(){
+ i=0;score=0;time=300;
+ startTimer();
+ showQ();
+}
+
+function startTimer(){
+ clearInterval(timer);
+ timer=setInterval(()=>{
+  time--;
+  document.getElementById("timer").innerText="Tempo: "+time+"s";
+  if(time<=0){clearInterval(timer);alert("Tempo acabou");}
+ },1000);
+}
+
+function showQ(){
+ let q=questions[i];
+ let html="<h3>"+(i+1)+". "+q.q+"</h3>";
+ q.o.forEach((opt,index)=>{
+  html+=`<button onclick="ans(${index})">${opt}</button>`;
+ });
+ document.getElementById("quiz").innerHTML=html;
+}
+
+function ans(x){
+ let q=questions[i];
+ if(x==q.a) score++;
+ let html="<p>Resposta: "+q.o[q.a]+"</p><p>"+q.e+"</p>";
+ if(i<questions.length-1){
+  html+='<button onclick="next()">Próxima</button>';
+ }else{
+  html+="<h2>Resultado: "+score+"/"+questions.length+"</h2>";
+  html+='<button onclick="startQuiz()">Refazer</button>';
+ }
+ document.getElementById("quiz").innerHTML=html;
+}
+
+function next(){i++;showQ();}
+</script>
+
+<script>
+if("serviceWorker" in navigator){
+ navigator.serviceWorker.register("service-worker.js");
+}
+</script>
+
+</body>
+</html>

@@ -1,156 +1,129 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>CPA20 Premium</title>
 
-<title>CPA 2026 — App</title>
+  <style>
+    body {
+      font-family: Arial;
+      margin: 0;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+    }
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0a0a0f">
+    header {
+      background: #020617;
+      padding: 20px;
+      font-size: 22px;
+      font-weight: bold;
+    }
 
-<style>
-body {
-  background:#0a0a0f;
-  color:#e8e8f0;
-  font-family:sans-serif;
-  padding:15px;
-}
+    button {
+      padding: 12px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #22c55e;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-h1 { color:#f0c040; }
+    .premium {
+      background: gold;
+    }
 
-.card {
-  background:#111;
-  padding:15px;
-  border-radius:8px;
-  margin-bottom:10px;
-}
+    .card {
+      background: #1e293b;
+      margin: 15px;
+      padding: 15px;
+      border-radius: 10px;
+    }
 
-button {
-  padding:10px;
-  margin-top:10px;
-  width:100%;
-  background:#f0c040;
-  border:none;
-  font-weight:bold;
-}
-</style>
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 
 <body>
 
-<h1>CPA 2026 🎯</h1>
+<header>📊 CPA-20 PREMIUM</header>
 
-<div id="resumo">
-
-<div class="card">
-<h2>🔥 IR Renda Fixa</h2>
-<p>Até 180 dias: 22,5%</p>
-<p>181–360: 20%</p>
-<p>361–720: 17,5%</p>
-<p>+720: 15%</p>
+<div id="menu">
+  <button onclick="show('resumo')">📚 Resumos</button>
+  <button onclick="show('simulado')">📝 Simulado</button>
+  <button onclick="show('progresso')">📈 Progresso</button>
+  <button class="premium" onclick="unlock()">🔓 Premium</button>
 </div>
 
-<div class="card">
-<h2>🔥 FGC</h2>
-<p>R$250 mil por CPF por instituição</p>
-<p>Limite global: R$1 milhão</p>
+<div id="resumo" class="hidden">
+  <div class="card">
+    <h3>Tesouro + CDB + LCI/LCA</h3>
+    <p>
+      Tesouro: risco baixo, garantia do governo.<br>
+      CDB: depende do banco + FGC até 250k.<br>
+      LCI/LCA: isento de IR.
+    </p>
+  </div>
+
+  <div class="card premium-content hidden">
+    <h3>🔥 Premium: Estratégia de Prova</h3>
+    <p>
+      Priorize LCI/LCA em questões de imposto.<br>
+      Tesouro Selic = liquidez.<br>
+      CDB longo = maior rentabilidade.
+    </p>
+  </div>
 </div>
 
-<div class="card">
-<h2>🔥 Tesouro Direto</h2>
-<p>Selic: reserva de emergência</p>
-<p>Prefixado: queda de juros</p>
-<p>IPCA+: proteção inflação</p>
+<div id="simulado" class="hidden">
+  <div class="card">
+    <h3>Pergunta</h3>
+    <p>LCI é isento de qual imposto?</p>
+
+    <button onclick="responder(true)">IR</button>
+    <button onclick="responder(false)">IOF</button>
+
+    <p id="resultado"></p>
+  </div>
 </div>
 
-<div class="card">
-<h2>🔥 Fundos</h2>
-<p>Come-cotas: maio e novembro</p>
-<p>Fundos de ações NÃO tem</p>
-</div>
-
-<button onclick="abrirSimulado()">📝 Fazer Simulado</button>
-
-</div>
-
-<div id="simulado" style="display:none">
-
-<div class="card">
-<div id="timer">Tempo: 300s</div>
-<div id="quiz"></div>
-<button onclick="startQuiz()">Iniciar</button>
-<button onclick="voltar()">⬅ Voltar</button>
-</div>
-
+<div id="progresso" class="hidden">
+  <div class="card">
+    <h3>Seu progresso</h3>
+    <p id="score">0 acertos</p>
+  </div>
 </div>
 
 <script>
-function abrirSimulado(){
- document.getElementById("resumo").style.display="none";
- document.getElementById("simulado").style.display="block";
+let acertos = 0
+let premium = false
+
+function show(id) {
+  document.querySelectorAll('div').forEach(el => el.classList.add('hidden'))
+  document.getElementById(id).classList.remove('hidden')
 }
 
-function voltar(){
- document.getElementById("simulado").style.display="none";
- document.getElementById("resumo").style.display="block";
-}
-</script>
+function responder(correto) {
+  if (correto) {
+    acertos++
+    document.getElementById("resultado").innerText = "✅ Acertou!"
+  } else {
+    document.getElementById("resultado").innerText = "❌ Errou!"
+  }
 
-<script>
-const questions = [
-{q:"Produto isento de IR?",o:["CDB","LCI","Tesouro","Debênture"],a:1,e:"LCI é isenta"},
-{q:"Quem define Selic?",o:["CMN","BACEN","COPOM","CVM"],a:2,e:"COPOM define"},
-{q:"Come-cotas ocorre em?",o:["Ações","RF","FII","ETF"],a:1,e:"Renda fixa"},
-{q:"FGC cobre até?",o:["100k","250k","500k","1mi"],a:1,e:"250 mil"},
-{q:"Perfil maior risco?",o:["Cons.","Mod.","Arrojado","Nenhum"],a:2,e:"Arrojado"}
-];
-
-let i=0,score=0,time=300,timer;
-
-function startQuiz(){
- i=0;score=0;time=300;
- startTimer();
- showQ();
+  document.getElementById("score").innerText = acertos + " acertos"
 }
 
-function startTimer(){
- clearInterval(timer);
- timer=setInterval(()=>{
-  time--;
-  document.getElementById("timer").innerText="Tempo: "+time+"s";
-  if(time<=0){clearInterval(timer);alert("Tempo acabou");}
- },1000);
-}
-
-function showQ(){
- let q=questions[i];
- let html="<h3>"+(i+1)+". "+q.q+"</h3>";
- q.o.forEach((opt,index)=>{
-  html+=`<button onclick="ans(${index})">${opt}</button>`;
- });
- document.getElementById("quiz").innerHTML=html;
-}
-
-function ans(x){
- let q=questions[i];
- if(x==q.a) score++;
- let html="<p>Resposta: "+q.o[q.a]+"</p><p>"+q.e+"</p>";
- if(i<questions.length-1){
-  html+='<button onclick="next()">Próxima</button>';
- }else{
-  html+="<h2>Resultado: "+score+"/"+questions.length+"</h2>";
-  html+='<button onclick="startQuiz()">Refazer</button>';
- }
- document.getElementById("quiz").innerHTML=html;
-}
-
-function next(){i++;showQ();}
-</script>
-
-<script>
-if("serviceWorker" in navigator){
- navigator.serviceWorker.register("service-worker.js");
+function unlock() {
+  premium = true
+  document.querySelectorAll(".premium-content").forEach(el => {
+    el.classList.remove("hidden")
+  })
+  alert("🔥 Premium desbloqueado!")
 }
 </script>
 
